@@ -30,12 +30,10 @@ function AdminLogin() {
       // Small delay for smooth feel
       await new Promise(resolve => setTimeout(resolve, 800));
 
-      const res = await axios.get("http://localhost:3001/login");
-      const users = res.data;
-      const user = users.find((u) => u.username === username && u.password === password);
+      const res = await axios.post("/api/login", { username, password });
 
-      if (user) {
-        login({ username });
+      if (res.data && res.data.ok) {
+        login({ username: res.data.username });
         const from = location.state?.from?.pathname || "/dashboard";
         navigate(from, { replace: true });
       } else {
@@ -43,7 +41,11 @@ function AdminLogin() {
       }
     } catch (error) {
       console.error("Login error", error);
-      setError("حدث خطأ أثناء محاولة تسجيل الدخول");
+      if (error.response && error.response.status === 401) {
+        setError("اسم المستخدم أو كلمة المرور غير صحيحة");
+      } else {
+        setError("حدث خطأ أثناء محاولة تسجيل الدخول");
+      }
     } finally {
       setIsLoading(false);
     }
