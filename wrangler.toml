@@ -1,0 +1,8 @@
+name = "blue-shark-marine"
+pages_build_output_dir = "dist"
+compatibility_date = "2024-06-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "blue-shark-marine"
+database_id = "83714a95-69d5-4faa-8c63-247dc94995e5"
